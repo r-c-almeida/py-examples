@@ -32,8 +32,8 @@ DIRECTORY_BASE = os.path.dirname(os.path.abspath(__file__))
 db_path_collective_cost = os.path.join(DIRECTORY_BASE,"POF","DESPESA_COLETIVA.txt")
 db_collective_cost = pd.read_fwf(db_path_collective_cost, encoding='latin1', names=headers, colspecs=colspecs, dtype=str)
 print(db_collective_cost.head())
-#db_collective_cost["VALOR_SAUDE"] = db_collective_cost["VALOR_SAUDE"].astype(float) 
-#db_collective_cost["RENDA_TOTAL"] = db_collective_cost["RENDA_TOTAL"].astype(float)
+db_collective_cost["VALOR_SAUDE"] = db_collective_cost["VALOR_SAUDE"].astype(float) 
+db_collective_cost["RENDA_TOTAL"] = db_collective_cost["RENDA_TOTAL"].astype(float)
 db_collective_cost["RENDA_TOTAL_ANUAL"] = db_collective_cost["RENDA_TOTAL"].astype(float) * 12
 db_collective_cost["UF"] = db_collective_cost["UF"].astype(int)
 db_collective_cost["UF_MAP"] = db_collective_cost["UF"].map(uf_map)
@@ -45,16 +45,27 @@ db_collective_cost["UF_MAP"] = db_collective_cost["UF"].map(uf_map)
 #print(db_collective_cost_insurance.count())
 columns_to_check = ["UF_MAP", "RENDA_TOTAL", "VALOR_SAUDE"]
 db_to_check = db_collective_cost[columns_to_check]
+db_to_check["VALOR_SAUDE"] = db_to_check["VALOR_SAUDE"].astype(float)
+
+db_to_check = db_to_check[db_to_check["VALOR_SAUDE"] < 10000 ]
 
 print(db_to_check.head())
 
+ymin = db_to_check["RENDA_TOTAL"].quantile(0.01)
+ymax = db_to_check["RENDA_TOTAL"].quantile(0.95)
+
 #plt.figure(figsize=(12,6))
 sns.boxplot(x="UF_MAP", y="RENDA_TOTAL", data = db_to_check)
+plt.ylim(ymin, ymax)
 #plt.xticks(rotation=45)
 plt.grid(True)
 plt.show()
 
+ymin = db_to_check["VALOR_SAUDE"].quantile(0.01)
+ymax = db_to_check["VALOR_SAUDE"].quantile(0.95)
 sns.boxplot(x="UF_MAP", y="VALOR_SAUDE", data = db_to_check)
+plt.ylim(ymin, ymax)
+plt.grid(True)
 plt.show()
 
 sns.scatterplot(x="RENDA_TOTAL", y="VALOR_SAUDE", data=db_to_check)
