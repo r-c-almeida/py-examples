@@ -1,0 +1,57 @@
+# Bytecode e cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ambientes virtuais
+.env/
+Lib/
+env/
+Lib/
+
+# Arquivos de log
+*.log
+
+# Arquivos de configuração pessoais
+*.env
+*.ini
+*.cfg
+*.local
+*.db
+
+# Distribuição e build
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# PyInstaller
+*.spec
+
+# IDEs
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints
+
+# Testes
+.coverage
+.cache/
+.tox/
+.nox/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+htmlcov/
+
+# Mypy
+.mypy_cache/
+.dmypy.json
+
+# Lint
+.pyre/
+ruff_cache/
+
+# Notebooks temporários
+*.checkpoint.ipynb
